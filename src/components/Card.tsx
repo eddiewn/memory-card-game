@@ -19,7 +19,7 @@ const [clicked, setClicked] = useState<boolean>(false);
         
         className="border rounded shadow hover:shadow-lg cursor-pointer h-40 relative aspect-auto">
 
-            {img && <img className="w-full h-full absolute " src={!clicked ? "../../public/card-background.png" : img} alt={cardName} />}
+            {img && <img className="w-full h-full absolute " src={!clicked ? "/card-background.png" : img} alt={cardName} />}
         </div>
     )
 };
