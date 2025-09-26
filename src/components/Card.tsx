@@ -1,13 +1,25 @@
+import { useState } from "react";
+
 type CardProps = {
     cardName: string;
+    img: string;
 };
 
-const Card = ({cardName}: CardProps) => {
+
+const Card = ({cardName, img}: CardProps) => {
+
+const [clicked, setClicked] = useState<boolean>(false);
+
+
     return (
-        <div onClick={() => alert(`You clicked on ${cardName}`)} className="border p-4 rounded shadow hover:shadow-lg cursor-pointer h-40">
-            <h1>
-                {cardName}
-            </h1>
+        <div 
+        onClick={() => (
+            setClicked(!clicked)
+        )} 
+        
+        className="border rounded shadow hover:shadow-lg cursor-pointer h-40 relative aspect-auto">
+
+            {img && <img className="w-full h-full absolute " src={!clicked ? "../../public/card-background.png" : img} alt={cardName} />}
         </div>
     )
 };
