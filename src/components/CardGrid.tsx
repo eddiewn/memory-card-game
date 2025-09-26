@@ -1,5 +1,5 @@
 import Card from "./Card.tsx";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 type CardType = {
     id: number;
@@ -9,22 +9,22 @@ type CardType = {
 };
 
 const cardData: CardType[] = [
-    {id: 1, name: "Tiger", img: "/tiger.png", flipped: false},
-    {id: 2, name: "Tiger", img: "/tiger.png", flipped: false},
-    {id: 3, name: "Elephant", img: "/elephant.png", flipped: false},
-    {id: 4, name: "Elephant", img: "/elephant.png", flipped: false},
-    {id: 5, name: "Lion", img: "/lion.png", flipped: false},
-    {id: 6, name: "Lion", img: "/lion.png", flipped: false},
-    {id: 7, name: "Zebra", img: "/zebra.png", flipped: false},
-    {id: 8, name: "Zebra", img: "/zebra.png", flipped: false},
-    {id: 9, name: "Panda", img: "/panda.png", flipped: false},
-    {id: 10, name: "Panda", img: "/panda.png", flipped: false},
-    {id: 11, name: "Bear", img: "/bear.png", flipped: false},
-    {id: 12, name: "Bear", img: "/bear.png", flipped: false},
-    {id: 13, name: "Monkey", img: "/monkey.png", flipped: false},
-    {id: 14, name: "Monkey", img: "/monkey.png", flipped: false},
-    {id: 15, name: "Wolf", img: "/wolf.png", flipped: false},
-    {id: 16, name: "Wolf", img: "/wolf.png", flipped: false},
+    { id: 1, name: "Tiger", img: "/tiger.png", flipped: false },
+    { id: 2, name: "Tiger", img: "/tiger.png", flipped: false },
+    { id: 3, name: "Elephant", img: "/elephant.png", flipped: false },
+    { id: 4, name: "Elephant", img: "/elephant.png", flipped: false },
+    { id: 5, name: "Lion", img: "/lion.png", flipped: false },
+    { id: 6, name: "Lion", img: "/lion.png", flipped: false },
+    { id: 7, name: "Zebra", img: "/zebra.png", flipped: false },
+    { id: 8, name: "Zebra", img: "/zebra.png", flipped: false },
+    { id: 9, name: "Panda", img: "/panda.png", flipped: false },
+    { id: 10, name: "Panda", img: "/panda.png", flipped: false },
+    { id: 11, name: "Bear", img: "/bear.png", flipped: false },
+    { id: 12, name: "Bear", img: "/bear.png", flipped: false },
+    { id: 13, name: "Monkey", img: "/monkey.png", flipped: false },
+    { id: 14, name: "Monkey", img: "/monkey.png", flipped: false },
+    { id: 15, name: "Wolf", img: "/wolf.png", flipped: false },
+    { id: 16, name: "Wolf", img: "/wolf.png", flipped: false },
 ];
 
 function CardGrid() {
@@ -33,7 +33,7 @@ function CardGrid() {
     const flipCard = (id: number) => {
         setCards((prevCards) =>
             prevCards.map((card) =>
-                card.id === id ? {...card, flipped: !card.flipped} : card
+                card.id === id ? { ...card, flipped: !card.flipped } : card
             )
         );
     };
@@ -57,25 +57,32 @@ function CardGrid() {
     }, []);
 
     const [selectedCards, setSelectedCards] = useState<CardType[]>([]);
+    const [madePairs, setMadePairs] = useState<CardType[]>([]);
 
     useEffect(() => {
         if (selectedCards.length === 2) {
             if (selectedCards[0].name === selectedCards[1].name) {
                 console.log("It's a match!");
-                
+
                 setCards((prevCards) =>
                     prevCards.map((card) =>
-                        card.flipped ? {...card, flipped: true} : card
+                        card.flipped ? { ...card, flipped: true } : card
                     )
                 );
 
+                console.log("Made pairs:", [...madePairs]);
+
+                setMadePairs([...madePairs, ...selectedCards]);
                 setSelectedCards([]);
             } else {
                 console.log("Not a match!");
                 setTimeout(() => {
                     setCards((prevCards) =>
                         prevCards.map((card) =>
-                            card.flipped ? {...card, flipped: false} : card
+                            card.flipped &&
+                            !madePairs.find((c) => c.id === card.id)
+                                ? { ...card, flipped: false }
+                                : card
                         )
                     );
                 }, 1000);
@@ -95,7 +102,7 @@ function CardGrid() {
                     img={card.img}
                     flipped={card.flipped}
                     onClick={() => (
-                        flipCard(card.id), 
+                        flipCard(card.id),
                         setSelectedCards((prev) => [...prev, card])
                     )}
                 />
