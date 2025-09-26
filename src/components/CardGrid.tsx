@@ -38,6 +38,7 @@ function CardGrid() {
         );
     };
 
+    // Yates Fisher shuffle algorithm
     function shuffle(arr: CardType[]): CardType[] {
         const newArr = [...arr];
         let i = newArr.length,

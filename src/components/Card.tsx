@@ -15,9 +15,9 @@ const Card = ({cardName, img, flipped, onClick}: CardProps) => {
             onClick && onClick()
         )} 
         
-        className="border rounded shadow hover:shadow-lg cursor-pointer h-40 relative aspect-auto">
+        className="m-auto border lg:h-35 rounded shadow hover:shadow-lg cursor-pointer w-[100%] relative aspect-[9/16]">
 
-            {img && <img className="w-full h-full absolute " src={!flipped ? "/card-background.png" : img} alt={cardName} />}
+            {img && <img className="w-full h-full absolute border-4 border-black" src={!flipped ? "/card-background.png" : img} alt={cardName} />}
         </div>
     )
 };
