@@ -38,25 +38,48 @@ function CardGrid() {
         );
     };
 
-function shuffle(arr: CardType[]): CardType[] {
-    const newArr = [...arr];
-    let i = newArr.length, j, temp;
-    while (--i > 0) {
-        j = Math.floor(Math.random() * (i + 1));
-        temp = newArr[j];
-        newArr[j] = newArr[i];
-        newArr[i] = temp;
+    function shuffle(arr: CardType[]): CardType[] {
+        const newArr = [...arr];
+        let i = newArr.length,
+            j,
+            temp;
+        while (--i > 0) {
+            j = Math.floor(Math.random() * (i + 1));
+            temp = newArr[j];
+            newArr[j] = newArr[i];
+            newArr[i] = temp;
+        }
+        return newArr;
     }
-    return newArr;
-}
 
     useEffect(() => {
         setCards(shuffle(cards));
     }, []);
 
+    const selectedCards = cards.filter(card => card.flipped);
+
+    useEffect(() => {
+        if (selectedCards.length === 2) {
+            if (selectedCards[0].name === selectedCards[1].name) {
+                console.log("It's a match!");
+        }
+        else{
+            console.log("Not a match!");
+            setTimeout(() => {
+                setCards((prevCards) =>
+                    prevCards.map((card) =>
+                        card.flipped ? {...card, flipped: false} : card
+                    )
+                );
+            }, 1000);
+        }
+    }
+},[selectedCards]);
     return (
         <div className="grid grid-cols-4 gap-4">
-            {cards.map((card) => (
+
+            {
+            cards.map((card) => (
                 <Card
                     key={card.id}
                     cardName={card.name}
@@ -64,7 +87,8 @@ function shuffle(arr: CardType[]): CardType[] {
                     flipped={card.flipped}
                     onClick={() => flipCard(card.id)}
                 />
-            ))}
+            ))
+            }
         </div>
     );
 }
