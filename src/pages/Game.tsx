@@ -1,4 +1,4 @@
-import CardGrid from "../components/card_grid/CardGrid";
+import CardGrid from "../components/CardGrid";
 
 function Game() {
 
