@@ -1,4 +1,4 @@
-import Card from "./card.tsx";
+import Card from "./Card.tsx";
 
 type CardType = {
     id: number;
