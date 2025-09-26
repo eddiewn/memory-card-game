@@ -1,50 +1,69 @@
 import Card from "./Card.tsx";
+import {useEffect, useState} from "react";
 
 type CardType = {
     id: number;
     name: string;
     img: string;
+    flipped: boolean;
 };
 
 const cardData: CardType[] = [
-    {id: 1, name: "Tiger", img: "/tiger.png"},
-    {id: 2, name: "Tiger", img: "/tiger.png"},
-    {id: 3, name: "Elephant", img: "/elephant.png"},
-    {id: 4, name: "Elephant", img: "/elephant.png"},
-    {id: 5, name: "Lion", img: "/lion.png"},
-    {id: 6, name: "Lion", img: "/lion.png"},
-    {id: 7, name: "Zebra", img: "/zebra.png"},
-    {id: 8, name: "Zebra", img: "/zebra.png"},
-    {id: 9, name: "Panda", img: "/panda.png"},
-    {id: 10, name: "Panda", img: "/panda.png"},
-    {id: 11, name: "Bear", img: "/bear.png"},
-    {id: 12, name: "Bear", img: "/bear.png"},
-    {id: 13, name: "Monkey", img: "/monkey.png"},
-    {id: 14, name: "Monkey", img: "/monkey.png"},
-    {id: 15, name: "Wolf", img: "/wolf.png"},
-    {id: 16, name: "Wolf", img: "/wolf.png"},
+    {id: 1, name: "Tiger", img: "/tiger.png", flipped: false},
+    {id: 2, name: "Tiger", img: "/tiger.png", flipped: false},
+    {id: 3, name: "Elephant", img: "/elephant.png", flipped: false},
+    {id: 4, name: "Elephant", img: "/elephant.png", flipped: false},
+    {id: 5, name: "Lion", img: "/lion.png", flipped: false},
+    {id: 6, name: "Lion", img: "/lion.png", flipped: false},
+    {id: 7, name: "Zebra", img: "/zebra.png", flipped: false},
+    {id: 8, name: "Zebra", img: "/zebra.png", flipped: false},
+    {id: 9, name: "Panda", img: "/panda.png", flipped: false},
+    {id: 10, name: "Panda", img: "/panda.png", flipped: false},
+    {id: 11, name: "Bear", img: "/bear.png", flipped: false},
+    {id: 12, name: "Bear", img: "/bear.png", flipped: false},
+    {id: 13, name: "Monkey", img: "/monkey.png", flipped: false},
+    {id: 14, name: "Monkey", img: "/monkey.png", flipped: false},
+    {id: 15, name: "Wolf", img: "/wolf.png", flipped: false},
+    {id: 16, name: "Wolf", img: "/wolf.png", flipped: false},
 ];
 
 function CardGrid() {
-    function shuffle(arr: CardType[]) {
-        {
-            let i = arr.length,
-                j,
-                temp;
-            while (--i > 0) {
-                j = Math.floor(Math.random() * (i + 1));
-                temp = arr[j];
-                arr[j] = arr[i];
-                arr[i] = temp;
-            }
-        }
+    const [cards, setCards] = useState<CardType[]>(cardData);
+
+    const flipCard = (id: number) => {
+        setCards((prevCards) =>
+            prevCards.map((card) =>
+                card.id === id ? {...card, flipped: !card.flipped} : card
+            )
+        );
+    };
+
+function shuffle(arr: CardType[]): CardType[] {
+    const newArr = [...arr];
+    let i = newArr.length, j, temp;
+    while (--i > 0) {
+        j = Math.floor(Math.random() * (i + 1));
+        temp = newArr[j];
+        newArr[j] = newArr[i];
+        newArr[i] = temp;
     }
-    shuffle(cardData);
+    return newArr;
+}
+
+    useEffect(() => {
+        setCards(shuffle(cards));
+    }, []);
 
     return (
         <div className="grid grid-cols-4 gap-4">
-            {cardData.map((card) => (
-                <Card key={card.id} cardName={card.name} img={card.img} />
+            {cards.map((card) => (
+                <Card
+                    key={card.id}
+                    cardName={card.name}
+                    img={card.img}
+                    flipped={card.flipped}
+                    onClick={() => flipCard(card.id)}
+                />
             ))}
         </div>
     );
