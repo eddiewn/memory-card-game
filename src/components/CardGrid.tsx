@@ -106,6 +106,7 @@ function CardGrid() {
                         flipCard(card.id),
                         setSelectedCards((prev) => [...prev, card])
                     )}
+                    madePairs={madePairs}
                 />
             ))}
         </div>
