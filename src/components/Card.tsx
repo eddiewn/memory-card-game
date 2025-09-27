@@ -3,15 +3,15 @@ type CardProps = {
     img: string;
     flipped: boolean;
     onClick?: () => void;
-    madePairs: { id: number; name: string; img: string; flipped: boolean }[];
+    disable: boolean;
 };
 
-const Card = ({ cardName, img, flipped, onClick, madePairs }: CardProps) => {
+const Card = ({ cardName, img, flipped, onClick, disable }: CardProps) => {
 
     return (
         <div
             onClick={() => {
-                if (!flipped && onClick) {
+                if (!flipped && onClick && !disable) {
                     onClick();
                 }
             }}

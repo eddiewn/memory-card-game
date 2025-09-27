@@ -29,6 +29,8 @@ const cardData: CardType[] = [
 
 function CardGrid() {
     const [cards, setCards] = useState<CardType[]>(cardData);
+    const [disabled, setDisabled] = useState(false);
+
 
     const flipCard = (id: number) => {
         setCards((prevCards) =>
@@ -62,6 +64,9 @@ function CardGrid() {
 
     useEffect(() => {
         if (selectedCards.length === 2) {
+            setDisabled(true);
+
+
             if (selectedCards[0].name === selectedCards[1].name) {
                 console.log("It's a match!");
 
@@ -75,24 +80,29 @@ function CardGrid() {
 
                 setMadePairs([...madePairs, ...selectedCards]);
                 setSelectedCards([]);
+                setDisabled(false);
             } else {
+                setDisabled(true);
                 console.log("Not a match!");
                 setTimeout(() => {
                     setCards((prevCards) =>
                         prevCards.map((card) =>
+                            
                             card.flipped &&
                             !madePairs.find((c) => c.id === card.id)
                                 ? { ...card, flipped: false }
                                 : card
                         )
                     );
+                    setSelectedCards([]);
+                    setDisabled(false);
                 }, 1000);
-                setSelectedCards([]);
+
             }
         } else {
             console.log("Selected cards:", selectedCards);
         }
-    }, [selectedCards]);
+    }, [selectedCards, madePairs]);
 
     return (
         <div className="grid grid-cols-4 gap-4">
@@ -106,7 +116,7 @@ function CardGrid() {
                         flipCard(card.id),
                         setSelectedCards((prev) => [...prev, card])
                     )}
-                    madePairs={madePairs}
+                    disable={disabled}
                 />
             ))}
         </div>
