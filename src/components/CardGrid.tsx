@@ -66,7 +66,6 @@ function CardGrid() {
         if (selectedCards.length === 2) {
             setDisabled(true);
 
-
             if (selectedCards[0].name === selectedCards[1].name) {
                 console.log("It's a match!");
 
@@ -87,7 +86,6 @@ function CardGrid() {
                 setTimeout(() => {
                     setCards((prevCards) =>
                         prevCards.map((card) =>
-                            
                             card.flipped &&
                             !madePairs.find((c) => c.id === card.id)
                                 ? { ...card, flipped: false }
